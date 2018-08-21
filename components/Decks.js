@@ -10,29 +10,29 @@ class Decks extends Component {
   }
 
   onRenderItem = ({ item }) => <View style={styles.row}>
-    <DeckButton title={item.key} subTitle={item.cards}/>
+    <DeckButton deckName={item.key} numCards={item.numCards}/>
   </View>
 
   decks = [
     {
       key: 'udacicards',
-      cards: 3,
+      numCards: 3,
     },
     {
       key: 'newdeck',
-      cards: 3,
+      numCards: 3,
     },
     {
       key: 'udacicards1',
-      cards: 3,
+      numCards: 3,
     },
     {
       key: 'newdeck1',
-      cards: 3,
+      numCards: 3,
     },
     {
       key: 'newdeck2',
-      cards: 3,
+      numCards: 3,
     },
   ]
 
