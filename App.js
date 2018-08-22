@@ -5,6 +5,7 @@ import { pencilYellow } from "./utils/colors";
 import Decks from "./components/Decks";
 import Deck from "./components/Deck";
 import Quiz from "./components/Quiz";
+import NewDeck from "./components/NewDeck";
 
 export default class App extends React.Component {
 
@@ -50,8 +51,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <CardsStatusBar backgroundColor={pencilYellow} barStyle={'light-content'}/>
-        <Quiz
-          questions={this.questions}
+        <NewDeck
         />
       </View>
     )

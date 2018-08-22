@@ -8,7 +8,7 @@ class Quiz extends Component {
   state = {
     currentCard: 0,
     totalCards: 0,
-    score: 0.0,
+    score: 0,
     cardDisplay: 'question',
   }
 
@@ -51,7 +51,7 @@ class Quiz extends Component {
           onPress={() => console.log("HI")}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: green }]}
         >
-          <Text style={[ss.correctButton]}>
+          <Text style={[ss.correctButtonText]}>
             Correct
           </Text>
         </TouchableOpacity>
@@ -59,7 +59,7 @@ class Quiz extends Component {
           onPress={() => console.log("HI")}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: red }]}
         >
-          <Text style={[ss.incorrectButton]}>
+          <Text style={[ss.incorrectButtonText]}>
             Incorrect
           </Text>
         </TouchableOpacity>
@@ -92,17 +92,13 @@ const ss = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
-  correctButton: {
+  correctButtonText: {
     fontSize: 20,
     color: white,
-    textAlign: 'justify',
-
   },
-  incorrectButton: {
+  incorrectButtonText: {
     fontSize: 20,
     color: white,
-    backgroundColor: red,
-    textAlign: 'justify'
   },
   center: {
     flex: 1,
