@@ -13,33 +13,11 @@ class Decks extends Component {
     <DeckButton deckName={item.key} numCards={item.numCards}/>
   </View>
 
-  decks = [
-    {
-      key: 'udacicards',
-      numCards: 3,
-    },
-    {
-      key: 'newdeck',
-      numCards: 3,
-    },
-    {
-      key: 'udacicards1',
-      numCards: 3,
-    },
-    {
-      key: 'newdeck1',
-      numCards: 3,
-    },
-    {
-      key: 'newdeck2',
-      numCards: 3,
-    },
-  ]
-
   render() {
+    const { decks } = this.props
     return <View style={styles.container}>
       <FlatList
-        data={this.decks}
+        data={decks}
         renderItem={this.onRenderItem}
         onPress={() => console.log("PRESSED!")}
       />
