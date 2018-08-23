@@ -3,40 +3,48 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import { black, pencilYellow, white } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
 
-class NewDeck extends Component {
-
+class AddCard extends Component {
   state = {
-    deckName: '',
+    question: '',
+    answer: '',
   }
 
   render() {
-    const { deckName } = this.state
+    const { question, answer } = this.state
+    const buttonDisabled = question === '' || answer === ''
     return <KeyboardAvoidingView
       style={ss.container}
       behavior='padding'
       enabled
     >
-      <View style={ss.newDeckHeader}>
-        <Text style={{ fontSize: 50, textAlign: 'center' }}>
-          What is the title of your new deck?
-        </Text>
-      </View>
-      <View style={ss.newDeckForm}>
+      <View style={ss.addCardForm}>
         <TextInput
-          style={ss.deckNameTextInput}
-          onChangeText={(deckName) => this.setState({ deckName })}
-          placeholder='Deck Name'
-          value={deckName}
+          style={ss.textInput}
+          onChangeText={(question) => this.setState({ question })}
+          placeholder='Question'
+          value={question}
         />
+
+        <TextInput
+          style={ss.textInput}
+          onChangeText={(answer) => this.setState({ answer })}
+          placeholder='Answer'
+          value={answer}
+        />
+      </View>
+
+      <View style={{ flex: 4, justifyContent: 'flex-end', flexDirection: 'column' }}>
         <TouchableOpacity
           onPress={() => console.log("HI")}
-          style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: pencilYellow }]}
-          enabled={deckName !== ''}
+          style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: pencilYellow, alignSelf: 'flex-end' }]}
+          disabled={buttonDisabled}
         >
           <Text style={[ss.submitButtonText]}>
             Submit
           </Text>
         </TouchableOpacity>
+      </View>
+      <View style={{ flex: 1 }}>
       </View>
     </KeyboardAvoidingView>
   }
@@ -46,29 +54,20 @@ const ss = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: white,
-  },
-  newDeckHeader: {
-    flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 5,
-    paddingRight: 5,
   },
-  newDeckForm: {
+  addCardForm: {
     flex: 2,
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
-  deckNameTextInput: {
+  textInput: {
     height: 40,
     width: 300,
     paddingLeft: 10,
     borderColor: black,
     borderWidth: isAndroid ? 0 : 1,
-  },
-  submitButtonText: {
-    color: white,
-    fontSize: 20,
   },
   iosBtn: {
     padding: 10,
@@ -84,6 +83,10 @@ const ss = StyleSheet.create({
     height: 45,
     borderRadius: 2,
   },
+  submitButtonText: {
+    color: white,
+    fontSize: 20,
+  },
 })
 
-export default NewDeck
+export default AddCard

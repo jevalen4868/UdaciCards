@@ -2,10 +2,9 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CardsStatusBar } from "./components/CardsStatusBar";
 import { pencilYellow } from "./utils/colors";
-import Decks from "./components/Decks";
-import Deck from "./components/Deck";
-import Quiz from "./components/Quiz";
 import NewDeck from "./components/NewDeck";
+import AddCard from "./components/AddCard";
+import Decks from "./components/Decks";
 
 export default class App extends React.Component {
 
@@ -51,7 +50,8 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <CardsStatusBar backgroundColor={pencilYellow} barStyle={'light-content'}/>
-        <NewDeck
+        <AddCard
+          deckName={'udacicards'}
         />
       </View>
     )

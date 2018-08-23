@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import { gray, green, pencilYellow, red, white } from "../utils/colors";
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { green, red, white } from "../utils/colors";
 import { isIos } from "../utils/helpers";
 
 class Quiz extends Component {

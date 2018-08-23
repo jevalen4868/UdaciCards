@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { gray, pencilYellow, white } from "../utils/colors";
 import { isIos } from "../utils/helpers";
 

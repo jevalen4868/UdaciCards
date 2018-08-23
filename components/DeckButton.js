@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { gray } from "../utils/colors";
 
 export const DeckButton = ({ deckName, numCards, onPress }) =>
