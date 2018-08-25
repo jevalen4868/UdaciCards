@@ -5,6 +5,14 @@ import { isIos } from "../utils/helpers";
 
 class Quiz extends Component {
 
+  static navigationOptions = ({ navigation }) => {
+    const { deckName } = navigation.state.params
+
+    return {
+      title: `${deckName} quiz`,
+    }
+  }
+
   state = {
     currentCard: 0,
     totalCards: 0,
@@ -20,7 +28,7 @@ class Quiz extends Component {
 
   render() {
     const { currentCard, totalCards, score, cardDisplay } = this.state
-    const { question, answer } = this.props.questions[currentCard]
+    const { question, answer } = this.props.navigation.state.params.questions[currentCard]
     return <View style={ss.container}>
       <Text style={ss.cardTrackerText}>{currentCard} / {totalCards}</Text>
       {

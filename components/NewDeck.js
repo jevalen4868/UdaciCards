@@ -9,6 +9,22 @@ class NewDeck extends Component {
     deckName: '',
   }
 
+  onCreateNewDeck = () => {
+    const nav = this.props.navigation
+
+    nav.navigate(
+      'Deck',
+      {
+        deckName: this.state.deckName,
+        numCards: 0,
+      }
+    )
+
+    this.setState(() => ({
+      deckName: ''
+    }))
+  }
+
   render() {
     const { deckName } = this.state
     return <KeyboardAvoidingView
@@ -29,7 +45,7 @@ class NewDeck extends Component {
           value={deckName}
         />
         <TouchableOpacity
-          onPress={() => console.log("HI")}
+          onPress={this.onCreateNewDeck}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: pencilYellow }]}
           enabled={deckName !== ''}
         >

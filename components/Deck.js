@@ -4,8 +4,20 @@ import { gray, pencilYellow, white } from "../utils/colors";
 import { isIos } from "../utils/helpers";
 
 class Deck extends Component {
+
+  static navigationOptions = ({ navigation }) => {
+    const { deckName } = navigation.state.params
+
+    return {
+      title: `deck ${deckName}`,
+    }
+  }
+
   render() {
-    const { deckName, numCards } = this.props
+
+    const { deckName, numCards } = this.props.navigation.state.params
+    const nav = this.props.navigation
+
     return (
       <View style={ss.container}>
         <View style={ss.deckDisplay}>
@@ -17,20 +29,43 @@ class Deck extends Component {
           </Text>
         </View>
         <View style={ss.actions}>
+
           <TouchableOpacity
             style={isIos ? ss.iosBtn : ss.androidBtn}
-            onPress={() => console.log("HI")}>
+            onPress={
+              () => nav.navigate(
+                'AddCard',
+                {
+                  deckName,
+                  numCards,
+                }
+              )
+            }>
             <Text style={[{ fontSize: 20, color: white }]}>
               Add Card
             </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={isIos ? ss.iosBtn : ss.androidBtn}
-            onPress={() => console.log("HI")}>
+            onPress={
+              () => nav.navigate(
+                'Quiz',
+                {
+                  deckName,
+                  questions:
+                    [{
+                      question: 'what\'s the sky?',
+                      answer: 'blue',
+                    }]
+                }
+              )
+            }>
             <Text style={[{ fontSize: 20, color: white }]}>
               Start Quiz
             </Text>
           </TouchableOpacity>
+
         </View>
       </View>
     )

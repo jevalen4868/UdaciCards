@@ -9,17 +9,41 @@ class Decks extends Component {
     ready: false,
   }
 
-  onRenderItem = ({ item }) => <View style={styles.row}>
-    <DeckButton deckName={item.key} numCards={item.numCards}/>
-  </View>
+  onRenderItem = ({ item }) => {
+    const nav = this.props.navigation
+
+    return <View style={styles.row}>
+      <DeckButton
+        deckName={item.key}
+        numCards={item.numCards}
+        onPress={() => nav.navigate(
+          'Deck',
+          {
+            deckName: item.key,
+            numCards: item.numCards,
+          }
+        )}/>
+    </View>
+  }
+
+  decks = [
+    {
+      key: 'udacicards',
+      numCards: 3,
+    },
+    {
+      key: 'udacicards1',
+      numCards: 4,
+    }
+  ]
 
   render() {
     const { decks } = this.props
+
     return <View style={styles.container}>
       <FlatList
-        data={decks}
+        data={this.decks}
         renderItem={this.onRenderItem}
-        onPress={() => console.log("PRESSED!")}
       />
     </View>
   }

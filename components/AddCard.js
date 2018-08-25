@@ -4,6 +4,15 @@ import { black, pencilYellow, white } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
 
 class AddCard extends Component {
+
+  static navigationOptions = ({ navigation }) => {
+    const { deckName } = navigation.state.params
+
+    return {
+      title: `add card to ${deckName}`,
+    }
+  }
+
   state = {
     question: '',
     answer: '',
