@@ -36,7 +36,7 @@ class Deck extends Component {
               () => nav.navigate(
                 'AddCard',
                 {
-                  deckName,
+                  deckName: title,
                   numCards,
                 }
               )
@@ -52,7 +52,7 @@ class Deck extends Component {
               () => nav.navigate(
                 'Quiz',
                 {
-                  deckName,
+                  deckName: title,
                   questions:
                     [{
                       question: 'what\'s the sky?',

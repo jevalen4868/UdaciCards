@@ -2,31 +2,47 @@ import React, { Component } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { black, pencilYellow, white } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
+import { connect } from 'react-redux'
+import { addDeck } from "../actions/decks";
 
 class NewDeck extends Component {
 
   state = {
-    deckName: '',
+    title: '',
   }
 
   onCreateNewDeck = () => {
     const nav = this.props.navigation
+    const { dispatch } = this.props
 
+    const { title } = this.state
+    const keyValue = {
+      title,
+      questions: [],
+      numQuestions: 0,
+    }
+
+    // add deck to state.
+    dispatch(addDeck({
+      [title]: keyValue,
+    }))
+
+    // navigate
     nav.navigate(
       'Deck',
       {
-        deckName: this.state.deckName,
-        numCards: 0,
+        title,
+        numQuestions: 0,
       }
     )
 
     this.setState(() => ({
-      deckName: ''
+      title: ''
     }))
   }
 
   render() {
-    const { deckName } = this.state
+    const { title } = this.state
     return <KeyboardAvoidingView
       style={ss.container}
       behavior='padding'
@@ -39,15 +55,15 @@ class NewDeck extends Component {
       </View>
       <View style={ss.newDeckForm}>
         <TextInput
-          style={ss.deckNameTextInput}
-          onChangeText={(deckName) => this.setState({ deckName })}
+          style={ss.titleTextInput}
+          onChangeText={(title) => this.setState({ title })}
           placeholder='Deck Name'
-          value={deckName}
+          value={title}
         />
         <TouchableOpacity
           onPress={this.onCreateNewDeck}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: pencilYellow }]}
-          enabled={deckName !== ''}
+          enabled={title !== ''}
         >
           <Text style={[ss.submitButtonText]}>
             Submit
@@ -75,7 +91,7 @@ const ss = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
-  deckNameTextInput: {
+  titleTextInput: {
     height: 40,
     width: 300,
     paddingLeft: 10,
@@ -102,4 +118,4 @@ const ss = StyleSheet.create({
   },
 })
 
-export default NewDeck
+export default connect()(NewDeck)

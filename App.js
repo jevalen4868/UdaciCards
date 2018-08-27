@@ -10,6 +10,9 @@ import { isIos, isAndroid } from "./utils/helpers";
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import NewDeck from "./components/NewDeck";
 import Quiz from "./components/Quiz";
+import reducer from "./reducers";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 
 const routeConfigs = {
   Decks: {
@@ -109,12 +112,19 @@ const MainNavigation = createStackNavigator({
 
 export default class App extends React.Component {
 
+  componentDidMount() {
+    // set a reminder for quizzes.
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <CardsStatusBar backgroundColor={pencilYellow}/>
-        <MainNavigation/>
-      </View>
+      <Provider
+        store={createStore(reducer)}>
+        <View style={styles.container}>
+          <CardsStatusBar backgroundColor={pencilYellow}/>
+          <MainNavigation/>
+        </View>
+      </Provider>
     )
   }
 }

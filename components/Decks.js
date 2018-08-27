@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { white } from '../utils/colors';
 import { DeckButton } from "./DeckButton";
+import { connect } from 'react-redux'
+import { fetchDecksResults } from "../utils/api";
+import { receiveDecks } from "../actions/decks";
+import { AppLoading } from "expo";
 
 class Decks extends Component {
 
@@ -9,42 +13,67 @@ class Decks extends Component {
     ready: false,
   }
 
+  componentDidMount() {
+    const { dispatch } = this.props
+    fetchDecksResults()
+      .then((decks) => dispatch(receiveDecks(decks)))
+      .then(this.setState(() => ({
+        ready: true,
+      })))
+  }
+
   onRenderItem = ({ item }) => {
     const nav = this.props.navigation
+    console.log('item', item)
+    console.log('item.title', item.key)
 
-    return <View style={styles.row}>
+    return <View
+      key={item.key}
+      style={styles.row}
+    >
       <DeckButton
-        deckName={item.key}
-        numCards={item.numCards}
+        title={item.key}
+        numQuestions={item.numQuestions}
         onPress={() => nav.navigate(
           'Deck',
           {
-            deckName: item.key,
-            numCards: item.numCards,
+            title: item.key,
+            numQuestions: item.numQuestions,
           }
         )}/>
     </View>
   }
 
-  decks = [
-    {
-      key: 'udacicards',
-      numCards: 3,
-    },
-    {
-      key: 'udacicards1',
-      numCards: 4,
-    }
-  ]
-
   render() {
     const { decks } = this.props
+    console.log('decks', decks)
+
+    const decksArr = Object.keys(decks).map((deckName) => ({
+      key: deckName,
+      numQuestions: decks[deckName].numQuestions
+    }))
+
+    console.log('decksArr', decksArr)
+
+    const { ready } = this.state
+
+    if (ready === false) {
+      return <AppLoading/>
+    }
 
     return <View style={styles.container}>
-      <FlatList
-        data={this.decks}
-        renderItem={this.onRenderItem}
-      />
+      {
+        decksArr.length !== 0
+          ?
+          <FlatList
+            data={decksArr}
+            renderItem={this.onRenderItem}
+          />
+          :
+          <View style={styles.center}>
+            <Text style={{ fontSize: 20 }}>Create your first deck!</Text>
+          </View>
+      }
     </View>
   }
 }
@@ -63,6 +92,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 250,
   },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 30,
+    marginLeft: 30,
+  },
 })
 
-export default Decks
+const mapStateToProps = ({ decks }) => ({
+  decks
+})
+
+export default connect(mapStateToProps)(Decks)
