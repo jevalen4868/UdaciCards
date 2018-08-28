@@ -6,26 +6,26 @@ import { isIos } from "../utils/helpers";
 class Deck extends Component {
 
   static navigationOptions = ({ navigation }) => {
-    const { deckName } = navigation.state.params
+    const { title } = navigation.state.params
 
     return {
-      title: `deck ${deckName}`,
+      title: `deck ${title}`,
     }
   }
 
   render() {
 
-    const { deckName, numCards } = this.props.navigation.state.params
+    const { title, numQuestions } = this.props.navigation.state.params
     const nav = this.props.navigation
 
     return (
       <View style={ss.container}>
         <View style={ss.deckDisplay}>
           <Text style={[{ fontSize: 35 }]}>
-            {deckName}
+            {title}
           </Text>
           <Text style={[{ fontSize: 20, color: gray }]}>
-            {numCards} cards
+            {numQuestions} cards
           </Text>
         </View>
         <View style={ss.actions}>
@@ -37,7 +37,7 @@ class Deck extends Component {
                 'AddCard',
                 {
                   deckName: title,
-                  numCards,
+                  numCards: numQuestions,
                 }
               )
             }>

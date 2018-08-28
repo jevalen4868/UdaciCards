@@ -24,8 +24,6 @@ class Decks extends Component {
 
   onRenderItem = ({ item }) => {
     const nav = this.props.navigation
-    console.log('item', item)
-    console.log('item.title', item.key)
 
     return <View
       key={item.key}
@@ -46,14 +44,11 @@ class Decks extends Component {
 
   render() {
     const { decks } = this.props
-    console.log('decks', decks)
 
-    const decksArr = Object.keys(decks).map((deckName) => ({
+    const decksArr = Object.keys(decks).sort().map((deckName) => ({
       key: deckName,
       numQuestions: decks[deckName].numQuestions
     }))
-
-    console.log('decksArr', decksArr)
 
     const { ready } = this.state
 

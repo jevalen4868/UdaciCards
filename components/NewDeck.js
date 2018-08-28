@@ -4,6 +4,7 @@ import { black, pencilYellow, white } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
 import { connect } from 'react-redux'
 import { addDeck } from "../actions/decks";
+import { submitDeck } from "../utils/api";
 
 class NewDeck extends Component {
 
@@ -26,6 +27,11 @@ class NewDeck extends Component {
     dispatch(addDeck({
       [title]: keyValue,
     }))
+
+    submitDeck({
+      key: title,
+      entry: keyValue,
+    })
 
     // navigate
     nav.navigate(

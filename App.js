@@ -13,6 +13,7 @@ import Quiz from "./components/Quiz";
 import reducer from "./reducers";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+import middleware from './middleware'
 
 const routeConfigs = {
   Decks: {
@@ -119,7 +120,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider
-        store={createStore(reducer)}>
+        store={createStore(reducer, middleware)}>
         <View style={styles.container}>
           <CardsStatusBar backgroundColor={pencilYellow}/>
           <MainNavigation/>
