@@ -32,6 +32,11 @@ class NewDeck extends Component {
       key: title,
       entry: keyValue,
     })
+      .then(() => {
+        this.setState(() => ({
+          title: ''
+        }))
+      })
 
     // navigate
     nav.navigate(
@@ -41,10 +46,6 @@ class NewDeck extends Component {
         numQuestions: 0,
       }
     )
-
-    this.setState(() => ({
-      title: ''
-    }))
   }
 
   render() {

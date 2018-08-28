@@ -36,8 +36,8 @@ class Deck extends Component {
               () => nav.navigate(
                 'AddCard',
                 {
-                  deckName: title,
-                  numCards: numQuestions,
+                  title,
+                  numQuestions,
                 }
               )
             }>

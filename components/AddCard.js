@@ -2,20 +2,50 @@ import React, { Component } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { black, pencilYellow, white } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
+import { getDeck, submitDeck } from "../utils/api";
+import { connect } from 'react-redux'
 
 class AddCard extends Component {
 
   static navigationOptions = ({ navigation }) => {
-    const { deckName } = navigation.state.params
+    const { title } = navigation.state.params
 
     return {
-      title: `add card to ${deckName}`,
+      title: `add card to ${title}`,
     }
   }
 
   state = {
     question: '',
     answer: '',
+  }
+
+  submit = (e) => {
+    const { dispatch } = this.props
+    const { title, numQuestions } = this.props.navigation.state.params
+    const { question, answer } = this.state
+
+    // add card to deck
+    getDeck({ key: title })
+      .then((deck) => {
+        deck.questions = deck.questions.concat({ question, answer })
+        deck.numQuestions++
+
+        submitDeck({ entry: { ...deck }, key: title })
+          .then(() => {
+
+          })
+      })
+      .then(() => {
+        // back to original state
+        this.setState(() => ({
+          question: '',
+          answer: '',
+        }))
+      })
+
+    // redirect?
+
   }
 
   render() {
@@ -44,7 +74,7 @@ class AddCard extends Component {
 
       <View style={{ flex: 4, justifyContent: 'flex-end', flexDirection: 'column' }}>
         <TouchableOpacity
-          onPress={() => console.log("HI")}
+          onPress={this.submit}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: pencilYellow, alignSelf: 'flex-end' }]}
           disabled={buttonDisabled}
         >
@@ -98,4 +128,4 @@ const ss = StyleSheet.create({
   },
 })
 
-export default AddCard
+export default connect()(AddCard)

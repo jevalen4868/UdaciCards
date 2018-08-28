@@ -7,6 +7,12 @@ export const submitDeck = ({ entry, key }) => {
   }))
 }
 
+export const getDeck = ({ key }) => AsyncStorage.getItem(DECKS_STORAGE_KEY)
+  .then((results) => {
+    const data = JSON.parse(results)
+    return data[key]
+  })
+
 export const removeDeck = (key) => {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
