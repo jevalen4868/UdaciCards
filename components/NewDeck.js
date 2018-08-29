@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { black, pencilYellow, white } from "../utils/colors";
+import { black, gray, pencilYellow, white } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
 import { connect } from 'react-redux'
 import { addDeck } from "../actions/decks";
@@ -70,9 +70,9 @@ class NewDeck extends Component {
         <TouchableOpacity
           onPress={this.onCreateNewDeck}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: pencilYellow }]}
-          enabled={title !== ''}
+          disabled={title === ''}
         >
-          <Text style={[ss.submitButtonText]}>
+          <Text style={[ss.submitButtonText, { color: title === '' ? gray : white }]}>
             Submit
           </Text>
         </TouchableOpacity>

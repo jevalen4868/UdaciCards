@@ -122,7 +122,7 @@ export default class App extends React.Component {
       <Provider
         store={createStore(reducer, middleware)}>
         <View style={styles.container}>
-          <CardsStatusBar backgroundColor={pencilYellow}/>
+          <CardsStatusBar backgroundColor={pencilYellow} barStyle={'light-content'}/>
           <MainNavigation/>
         </View>
       </Provider>

@@ -2,37 +2,74 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { green, red, white } from "../utils/colors";
 import { isIos } from "../utils/helpers";
+import { connect } from 'react-redux'
+
+const initialState = {
+  currentQuestion: 0,
+  totalQuestions: 0,
+  correct: 0,
+  incorrect: 0,
+  questionDisplay: 'question',
+}
 
 class Quiz extends Component {
 
   static navigationOptions = ({ navigation }) => {
-    const { deckName } = navigation.state.params
+    const { title } = navigation.state.params
 
     return {
-      title: `${deckName} quiz`,
+      title: `${title} quiz`,
     }
   }
 
   state = {
-    currentCard: 0,
-    totalCards: 0,
-    score: 0,
-    cardDisplay: 'question',
+    ...initialState
   }
 
-  onFlipCard = (e) => {
-    this.setState(({ cardDisplay }) => ({
-      cardDisplay: cardDisplay === 'question' ? 'answer' : 'question'
+  componentDidMount() {
+    const { deck } = this.props
+    this.setState(() => ({
+      totalQuestions: deck.numQuestions
     }))
   }
 
+  onFlipCard = () => {
+    this.setState(({ questionDisplay }) => ({
+      questionDisplay: questionDisplay === 'question' ? 'answer' : 'question'
+    }))
+  }
+
+  answerCorrect = () => {
+    const { currentQuestion, totalQuestions, correct } = this.state
+    this.setState(() => ({
+      correct: correct + 1,
+      currentQuestion: currentQuestion + 1,
+    }))
+    currentQuestion + 1 === totalQuestions && this.quizComplete()
+  }
+
+  answerIncorrect = () => {
+    const { currentQuestion, totalQuestions, incorrect } = this.state
+    this.setState(() => ({
+      incorrect: incorrect + 1,
+      currentQuestion: currentQuestion + 1,
+    }))
+    currentQuestion + 1 === totalQuestions && this.quizComplete()
+  }
+
+  quizComplete = () => {
+    console.log('quiz complete!')
+  }
+
   render() {
-    const { currentCard, totalCards, score, cardDisplay } = this.state
-    const { question, answer } = this.props.navigation.state.params.questions[currentCard]
+    const { deck } = this.props
+    const { currentQuestion, totalQuestions, questionDisplay } = this.state
+    const { question, answer } = deck.questions[currentQuestion]
     return <View style={ss.container}>
-      <Text style={ss.cardTrackerText}>{currentCard} / {totalCards}</Text>
+      <Text style={ss.cardTrackerText}>{currentQuestion + 1} / {totalQuestions}</Text>
+
       {
-        cardDisplay === 'question'
+        questionDisplay === 'question'
           ?
           <View style={ss.questionAnswerView}>
             <Text style={ss.questionAnswerText}>{question}</Text>
@@ -54,9 +91,10 @@ class Quiz extends Component {
             </TouchableOpacity>
           </View>
       }
+
       <View style={ss.answers}>
         <TouchableOpacity
-          onPress={() => console.log("HI")}
+          onPress={this.answerCorrect}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: green }]}
         >
           <Text style={[ss.correctButtonText]}>
@@ -64,7 +102,7 @@ class Quiz extends Component {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => console.log("HI")}
+          onPress={this.answerIncorrect}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: red }]}
         >
           <Text style={[ss.incorrectButtonText]}>
@@ -131,4 +169,7 @@ const ss = StyleSheet.create({
   },
 })
 
-export default Quiz
+const mapStateToProps = ({ decks }, { navigation }) => ({
+  deck: decks[navigation.state.params.title],
+})
+export default connect(mapStateToProps)(Quiz)

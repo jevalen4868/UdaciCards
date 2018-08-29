@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { black, pencilYellow, white } from "../utils/colors";
+import { black, pencilYellow, white, gray } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
 import { getDeck, submitDeck } from "../utils/api";
 import { connect } from 'react-redux'
+import { addCard } from "../actions/decks";
 
 class AddCard extends Component {
 
@@ -31,10 +32,8 @@ class AddCard extends Component {
         deck.questions = deck.questions.concat({ question, answer })
         deck.numQuestions++
 
+        dispatch(addCard(title, { question, answer }))
         submitDeck({ entry: { ...deck }, key: title })
-          .then(() => {
-
-          })
       })
       .then(() => {
         // back to original state
@@ -72,18 +71,16 @@ class AddCard extends Component {
         />
       </View>
 
-      <View style={{ flex: 4, justifyContent: 'flex-end', flexDirection: 'column' }}>
+      <View style={{ flex: 4, justifyContent: 'center' }}>
         <TouchableOpacity
           onPress={this.submit}
           style={[isIos ? ss.iosBtn : ss.androidBtn, { backgroundColor: pencilYellow, alignSelf: 'flex-end' }]}
           disabled={buttonDisabled}
         >
-          <Text style={[ss.submitButtonText]}>
+          <Text style={[ss.submitButtonText, { color: buttonDisabled ? gray : white }]}>
             Submit
           </Text>
         </TouchableOpacity>
-      </View>
-      <View style={{ flex: 1 }}>
       </View>
     </KeyboardAvoidingView>
   }
@@ -123,7 +120,6 @@ const ss = StyleSheet.create({
     borderRadius: 2,
   },
   submitButtonText: {
-    color: white,
     fontSize: 20,
   },
 })

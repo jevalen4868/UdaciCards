@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { gray, pencilYellow, white } from "../utils/colors";
 import { isIos } from "../utils/helpers";
+import { connect } from 'react-redux'
 
 class Deck extends Component {
 
@@ -15,8 +16,9 @@ class Deck extends Component {
 
   render() {
 
-    const { title, numQuestions } = this.props.navigation.state.params
     const nav = this.props.navigation
+    const { title, numQuestions } = this.props.deck
+    const startQuizDisabled = numQuestions === 0
 
     return (
       <View style={ss.container}>
@@ -48,20 +50,16 @@ class Deck extends Component {
 
           <TouchableOpacity
             style={isIos ? ss.iosBtn : ss.androidBtn}
+            disabled={startQuizDisabled}
             onPress={
               () => nav.navigate(
                 'Quiz',
                 {
-                  deckName: title,
-                  questions:
-                    [{
-                      question: 'what\'s the sky?',
-                      answer: 'blue',
-                    }]
+                  title,
                 }
               )
             }>
-            <Text style={[{ fontSize: 20, color: white }]}>
+            <Text style={[{ fontSize: 20, color: !startQuizDisabled ? white : gray}]}>
               Start Quiz
             </Text>
           </TouchableOpacity>
@@ -105,4 +103,12 @@ const ss = StyleSheet.create({
   },
 })
 
-export default Deck
+const mapStateToProps = ({ decks }, { navigation }) => {
+  const { title, numQuestions } = navigation.state.params
+  return {
+    deck: decks[title],
+    numQuestions
+  }
+}
+
+export default connect(mapStateToProps)(Deck)
