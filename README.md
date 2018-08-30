@@ -1,9 +1,16 @@
+#Summary
+
+Welcome to the UdaciCards app. This app allows you to create flashcards for studying and quizzing yourself on them! This was created as required to complete the Udacity React NanoDegree Project 3. 
+
+## Available on platforms
+It has been tested on both Android and iOS. Enjoy!
+
+## Standard mumbo jumbo
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
 ## Table of Contents
-
 * [Available Scripts](#available-scripts)
   * [npm start](#npm-start)
   * [npm test](#npm-test)

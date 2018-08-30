@@ -81,6 +81,7 @@ class Quiz extends Component {
     )
     this.setState(() => ({
       ...initialState,
+      totalQuestions,
     }))
   }
 
@@ -88,6 +89,7 @@ class Quiz extends Component {
     const { deck } = this.props
     const { currentQuestion, totalQuestions, questionDisplay } = this.state
 
+    console.log('deck.questions[currentQuestion]', deck.questions[currentQuestion])
     const { question, answer } = deck.questions[currentQuestion]
     return <View style={ss.container}>
       <Text style={ss.cardTrackerText}>{currentQuestion + 1} / {totalQuestions}</Text>
@@ -193,7 +195,13 @@ const ss = StyleSheet.create({
   },
 })
 
-const mapStateToProps = ({ decks }, { navigation }) => ({
-  deck: decks[navigation.state.params.title],
-})
+const mapStateToProps = ({ decks }, { navigation }) => {
+  console.log('mapStateToProps decks', decks)
+  console.log('mapStateToProps navigation.state.params.title', navigation.state.params.title)
+  console.log('mapStateToProps decks[navigation.state.params.title]', decks[navigation.state.params.title])
+
+  return {
+    deck: decks[navigation.state.params.title],
+  }
+}
 export default connect(mapStateToProps)(Quiz)
