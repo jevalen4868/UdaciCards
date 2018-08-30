@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { black, pencilYellow, white, gray } from "../utils/colors";
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { black, gray, pencilYellow, white } from "../utils/colors";
 import { isAndroid, isIos } from "../utils/helpers";
 import { getDeck, submitDeck } from "../utils/api";
 import { connect } from 'react-redux'
 import { addCard } from "../actions/decks";
+import { showMessage } from "react-native-flash-message";
 
 class AddCard extends Component {
 
@@ -21,10 +22,12 @@ class AddCard extends Component {
     answer: '',
   }
 
-  submit = (e) => {
+  submit = () => {
     const { dispatch } = this.props
-    const { title, numQuestions } = this.props.navigation.state.params
+    const { title } = this.props.navigation.state.params
     const { question, answer } = this.state
+
+    Keyboard.dismiss()
 
     // add card to deck
     getDeck({ key: title })
@@ -42,9 +45,15 @@ class AddCard extends Component {
           answer: '',
         }))
       })
-
+      .then(() => {
+        showMessage({
+          message: "Card added!",
+          type: "info",
+          backgroundColor: pencilYellow, // background color
+          color: white, // text color
+        })
+      })
     // redirect?
-
   }
 
   render() {

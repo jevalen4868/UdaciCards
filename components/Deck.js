@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { gray, pencilYellow, white } from "../utils/colors";
-import { isIos } from "../utils/helpers";
+import { isAndroid, isIos } from "../utils/helpers";
 import { connect } from 'react-redux'
 import { HeaderBackButton } from "react-navigation";
 
@@ -20,6 +20,21 @@ class Deck extends Component {
           )
         }}/>
     }
+  }
+
+  componentDidMount() {
+    isAndroid && BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    isAndroid && BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  // If navigated to from NewDeck, need to override this.
+  handleBackButton = () => {
+    this.props.navigation.navigate('Decks')
+    // Disable default back button behavior.
+    return true
   }
 
   render() {
@@ -78,45 +93,51 @@ class Deck extends Component {
   }
 }
 
-const ss = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: white,
-  },
-  deckDisplay: {
-    flex: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  actions: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  iosBtn: {
-    backgroundColor: pencilYellow,
-    padding: 10,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40,
-  },
-  androidBtn: {
-    backgroundColor: pencilYellow,
-    padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
-    height: 45,
-    borderRadius: 7,
-  },
-})
+const
+  ss = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: white,
+    },
+    deckDisplay: {
+      flex: 3,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    actions: {
+      flex: 1,
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+    },
+    iosBtn: {
+      backgroundColor: pencilYellow,
+      padding: 10,
+      borderRadius: 7,
+      height: 45,
+      marginLeft: 40,
+      marginRight: 40,
+    },
+    androidBtn: {
+      backgroundColor: pencilYellow,
+      padding: 10,
+      paddingLeft: 30,
+      paddingRight: 30,
+      height: 45,
+      borderRadius: 7,
+    },
+  })
 
-const mapStateToProps = ({ decks }, { navigation }) => {
-  const { title, numQuestions } = navigation.state.params
-  return {
-    deck: decks[title],
-    numQuestions
+const
+  mapStateToProps = ({ decks }, { navigation }) => {
+    const { title, numQuestions } = navigation.state.params
+    return {
+      deck: decks[title],
+      numQuestions
+    }
   }
-}
 
-export default connect(mapStateToProps)(Deck)
+export default connect(mapStateToProps)
+
+(
+  Deck
+)

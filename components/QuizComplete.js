@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { green, red, white } from "../utils/colors";
-import { isIos } from "../utils/helpers";
+import { BackHandler, StyleSheet, Text, View } from 'react-native'
+import { white } from "../utils/colors";
+import { isAndroid } from "../utils/helpers";
 import { HeaderBackButton } from "react-navigation";
 
 class QuizComplete extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const { title, numQuestions } = navigation.state.params
-    console.log('navigation.state.params', navigation.state.params)
     return {
       title: `${title} quiz complete!`,
       headerLeft: <HeaderBackButton
@@ -24,10 +23,29 @@ class QuizComplete extends Component {
     }
   }
 
+  componentDidMount() {
+    isAndroid && BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    isAndroid && BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton = () => {
+    const { title, numQuestions } = this.props.navigation.state.params
+    this.props.navigation.navigate(
+      'Deck',
+      {
+        title,
+        numQuestions
+      })
+    // Disable default back button behavior.
+    return true
+  }
 
   render() {
     const { navigation, } = this.props
-    const { title, numQuestions, correct, incorrect } = navigation.state.params
+    const { numQuestions, correct } = navigation.state.params
     const score = correct / numQuestions * 100
     return <View style={ss.container}>
       <View style={ss.scoreView}>
@@ -55,26 +73,6 @@ const ss = StyleSheet.create({
   scoreText: {
     fontSize: 40,
     textAlign: 'center',
-  },
-  answers: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  correctButtonText: {
-    fontSize: 20,
-    color: white,
-  },
-  incorrectButtonText: {
-    fontSize: 20,
-    color: white,
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 30,
-    marginLeft: 30,
   },
 })
 

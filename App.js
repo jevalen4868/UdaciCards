@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View,  } from 'react-native';
 import { CardsStatusBar } from "./components/CardsStatusBar";
 import { pencilYellow, white } from "./utils/colors";
 import Decks from "./components/Decks";
 import { createBottomTabNavigator, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import AddCard from "./components/AddCard";
 import Deck from "./components/Deck";
-import { isIos, isAndroid } from "./utils/helpers";
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import { isIos, setLocalNotification } from "./utils/helpers";
+import {
+  //FontAwesome,
+  Ionicons
+} from '@expo/vector-icons'
 import NewDeck from "./components/NewDeck";
 import Quiz from "./components/Quiz";
 import reducer from "./reducers";
@@ -15,11 +18,12 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import middleware from './middleware'
 import QuizComplete from "./components/QuizComplete";
+import FlashMessage from "react-native-flash-message";
 
 const routeConfigs = {
   Decks: {
     screen: Decks,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: () => ({
       headerTitle: 'decks',
       tabBarIcon: ({ tintColor }) => <Ionicons
         name={isIos ? 'ios-albums' : 'md-albums'} size={30} color={tintColor}/>
@@ -122,6 +126,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     // set a reminder for quizzes.
+    setLocalNotification()
   }
 
   render() {
@@ -131,6 +136,7 @@ export default class App extends React.Component {
         <View style={styles.container}>
           <CardsStatusBar backgroundColor={pencilYellow} barStyle={'light-content'}/>
           <MainNavigation/>
+          <FlashMessage position={'bottom'}/>
         </View>
       </Provider>
     )

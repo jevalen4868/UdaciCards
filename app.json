@@ -1,5 +1,19 @@
 {
-  "expo": {
-    "sdkVersion": "27.0.0"
+  "sdkVersion": "27.0.0",
+  "orientation": "portrait",
+  "name": "UdaciCards",
+  "description": "I'm just trying to help you.",
+  "slug": "udacicards",
+  "version": "1.0",
+  // Stealing tylers icons, whatevs
+  "icon": "https://tylermcginnis.com/udacifitness-512.png",
+  "notification": {
+    "icon": "https://tylermcginnis.com/udacifitness-45.png"
+  },
+  "ios": {
+    "bundleIdentifier": "org.udacicards.exp"
+  },
+  "android": {
+    "package": "org.udacicards.exp"
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { green, red, white } from "../utils/colors";
-import { isIos } from "../utils/helpers";
+import { clearLocalNotifications, isIos, setLocalNotification } from "../utils/helpers";
 import { connect } from 'react-redux'
 
 const initialState = {
@@ -67,6 +67,8 @@ class Quiz extends Component {
     const nav = this.props.navigation
 
     // mark quiz taken for the day.
+    clearLocalNotifications()
+      .then(setLocalNotification)
 
     nav.navigate(
       'QuizComplete',
