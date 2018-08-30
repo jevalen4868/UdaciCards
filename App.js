@@ -14,6 +14,7 @@ import reducer from "./reducers";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import middleware from './middleware'
+import QuizComplete from "./components/QuizComplete";
 
 const routeConfigs = {
   Decks: {
@@ -86,7 +87,6 @@ const MainNavigation = createStackNavigator({
       headerStyle: {
         backgroundColor: pencilYellow,
       },
-      headerLeft: isAndroid ? null : this.headerLeft,
     },
   },
   AddCard: {
@@ -96,7 +96,6 @@ const MainNavigation = createStackNavigator({
       headerStyle: {
         backgroundColor: pencilYellow,
       },
-      headerLeft: isAndroid ? null : this.headerLeft,
     },
   },
   Quiz: {
@@ -106,7 +105,15 @@ const MainNavigation = createStackNavigator({
       headerStyle: {
         backgroundColor: pencilYellow,
       },
-      headerLeft: isAndroid ? null : this.headerLeft,
+    },
+  },
+  QuizComplete: {
+    screen: QuizComplete,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: pencilYellow,
+      },
     },
   }
 })

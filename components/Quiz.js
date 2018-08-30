@@ -40,30 +40,52 @@ class Quiz extends Component {
   }
 
   answerCorrect = () => {
-    const { currentQuestion, totalQuestions, correct } = this.state
+    const { currentQuestion, totalQuestions, correct, incorrect } = this.state
+    const incrementCorrect = correct + 1
     this.setState(() => ({
-      correct: correct + 1,
+      correct: incrementCorrect,
       currentQuestion: currentQuestion + 1,
+      questionDisplay: 'question',
     }))
-    currentQuestion + 1 === totalQuestions && this.quizComplete()
+    currentQuestion + 1 === totalQuestions && this.quizComplete(incrementCorrect, incorrect)
   }
 
   answerIncorrect = () => {
-    const { currentQuestion, totalQuestions, incorrect } = this.state
+    const { currentQuestion, totalQuestions, correct, incorrect } = this.state
+    const incrementIncorrect = incorrect + 1
     this.setState(() => ({
-      incorrect: incorrect + 1,
+      incorrect: incrementIncorrect,
       currentQuestion: currentQuestion + 1,
+      questionDisplay: 'question',
     }))
-    currentQuestion + 1 === totalQuestions && this.quizComplete()
+    currentQuestion + 1 === totalQuestions && this.quizComplete(correct, incrementIncorrect)
   }
 
-  quizComplete = () => {
-    console.log('quiz complete!')
+  quizComplete = (correct, incorrect) => {
+    const { totalQuestions } = this.state
+    const { title } = this.props.deck
+    const nav = this.props.navigation
+
+    // mark quiz taken for the day.
+
+    nav.navigate(
+      'QuizComplete',
+      {
+        title,
+        numQuestions: totalQuestions,
+        correct,
+        incorrect,
+      }
+    )
+    this.setState(() => ({
+      ...initialState,
+    }))
   }
 
   render() {
     const { deck } = this.props
     const { currentQuestion, totalQuestions, questionDisplay } = this.state
+
     const { question, answer } = deck.questions[currentQuestion]
     return <View style={ss.container}>
       <Text style={ss.cardTrackerText}>{currentQuestion + 1} / {totalQuestions}</Text>

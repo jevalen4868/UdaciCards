@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { gray, pencilYellow, white } from "../utils/colors";
 import { isIos } from "../utils/helpers";
 import { connect } from 'react-redux'
+import { HeaderBackButton } from "react-navigation";
 
 class Deck extends Component {
 
@@ -11,6 +12,13 @@ class Deck extends Component {
 
     return {
       title: `deck ${title}`,
+      headerLeft: <HeaderBackButton
+        tintColor={white}
+        onPress={() => {
+          navigation.navigate(
+            'Decks'
+          )
+        }}/>
     }
   }
 
@@ -59,7 +67,7 @@ class Deck extends Component {
                 }
               )
             }>
-            <Text style={[{ fontSize: 20, color: !startQuizDisabled ? white : gray}]}>
+            <Text style={[{ fontSize: 20, color: !startQuizDisabled ? white : gray }]}>
               Start Quiz
             </Text>
           </TouchableOpacity>
