@@ -3,7 +3,7 @@
 Welcome to the UdaciCards app. This app allows you to create flashcards for studying and quizzing yourself on them! This was created as required to complete the Udacity React NanoDegree Project 3. 
 
 ## Available on platforms
-It has been tested on both Android and iOS. Enjoy!
+It has been tested and built for both Android and iOS. Enjoy!
 
 ## Standard mumbo jumbo
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
@@ -12,6 +12,7 @@ Below you'll find information about performing common tasks. The most recent ver
 
 ## Table of Contents
 * [Available Scripts](#available-scripts)
+  * [npm install](#npm-install)
   * [npm start](#npm-start)
   * [npm test](#npm-test)
   * [npm run ios](#npm-run-ios)
@@ -27,6 +28,9 @@ Below you'll find information about performing common tasks. The most recent ver
 ## Available Scripts
 
 If Yarn was installed when the project was initialized, then dependencies will have been installed via Yarn, and you should probably use it to run these commands as well. Unlike dependency installation, command running syntax is identical for Yarn and NPM at the time of this writing.
+
+### `npm install`
+If yarn not installed, this run this to download all of the application npm dependencies for execution.
 
 ### `npm start`
 
